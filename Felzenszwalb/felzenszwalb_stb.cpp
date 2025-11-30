@@ -9,6 +9,7 @@
 #include <random>
 #include <cstdlib>
 #include <unordered_map>
+#include <chrono>
 
 // Definições para stb_image
 #define STB_IMAGE_IMPLEMENTATION
@@ -136,7 +137,7 @@ int main(int argc, char** argv) {
 
     cout << "Vertices: " << N << ", Arestas: " << arestas.size() << "\n";
     cout << "K = " << K << ", min_size = " << min_size << "\n";
-
+    auto start = std::chrono::high_resolution_clock::now();
     // Ordenar arestas por peso crescente
     sort(arestas.begin(), arestas.end());
 
@@ -171,6 +172,10 @@ int main(int argc, char** argv) {
             dsu.unite(a, b, e.w);
         }
     }
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> duration = end - start;
+    cout << "Tempo de execucao: " << duration.count() << " ms" << endl;
 
     // Gerar cores para cada componente
     unordered_map<int, Pixel> color;

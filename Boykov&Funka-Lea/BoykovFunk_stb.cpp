@@ -13,6 +13,7 @@
 #include <random>
 #include <string>
 #include <cstdlib>
+#include <chrono>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -216,6 +217,7 @@ int main(int argc, char** argv) {
     int sink   = N + 1;
     int total_nodes = N + 2;
 
+    auto start = std::chrono::high_resolution_clock::now();
     Dinic dinic(total_nodes);
 
     // t-links (data term)
@@ -275,6 +277,9 @@ int main(int argc, char** argv) {
 
     cout << "Rodando max-flow/min-cut...\n";
     double flow = dinic.maxFlow(source, sink);
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> duration = end - start;
+    cout << "Tempo de execucao: " << duration.count() << " ms" << endl;
     cout << "Flow final: " << flow << "\n";
 
     // -------- Recupera partição (pixels alcançáveis de s no residual) --------
